@@ -1,19 +1,29 @@
-# check installation, install and load dependencies
+# Check installation, install and load dependencies
+loadPackage <- function(lib, bioc = FALSE, gh = FALSE, gh.path = "") {
+  if (!require(lib, character.only = TRUE, quietly = TRUE)) {
+    if (!bioc & !gh) {
+      do.call(install.packages, list(pkgs = c(lib), character.only = TRUE))
+    } else if (bioc) {
+      BiocManager::install(lib)
+    } else if (gh) {
+      remotes::install_github(gh.path)
+    }
+    do.call(install.packages, list(lib))
+  }
+}
 
-library(shiny)
-library(edgeR)
-library(ggplot2)
-library(pheatmap)
-library(ggrepel)
-library(pheatmap)
-library(Seurat)
-library(DESeq2)
-library(RColorBrewer)
-library(readxl)
-library(ggsignif)
-library(DT)
-library(graphics)
-library(enrichplot)
-library(ggpubr)
-library(ggprism)
-library(patchwork)
+#
+loadPackage("BiocManager")
+loadPackage("DT")
+loadPackage("ggpubr")
+loadPackage("ggrepel")
+loadPackage("markdown")
+loadPackage("patchwork")
+loadPackage("pheatmap")
+loadPackage("RColorBrewer")
+loadPackage("shiny")
+loadPackage("tidyverse")
+
+loadPackage("biomaRt", bioc = TRUE)
+loadPackage("edgeR", bioc = TRUE)
+loadPackage("enrichplot", bioc = TRUE)
